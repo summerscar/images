@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin:0;
+            padding: 0;
+
+        }
+        #play{
+            cursor: pointer;
+        }
+        div.video div.control div.pause{
+            margin:8px 10px;
+            display: inline-block;
+            width: 4px;
+            height: 14px;
+            border-left:4px solid  #444444;
+            border-right:4px solid  #444444;
+        }
+        div.video div.control div.play{
+            margin:8px 10px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left:12px solid  #444444;
+            border-bottom: 7px solid transparent;
+            border-right: 0px solid transparent;
+            border-top:7px solid transparent;
+        }
+        div.video div.control{
+            width: 100%;
+            height: 30px;
+            background-color: #EFF2F7;
+            text-align: left;
+        }
+        div.video{
+            display: inline-block;
+
+        }
+        .demo1{
+            text-align: center;
+            width: 100%;
+        }
+       div.timeshow{
+           font-size:10px;
+           display: inline-block;
+          vertical-align: top;
+           margin:7px 0;
+            margin-right: 10px;
+       }
+       div.progress{
+           vertical-align: top;
+           margin: 0 2px;
+           display: inline-block;
+           width: 300px;
+           height: 20px;
+           background-color: #eee;
+           position: relative;
+       }
+        div.progress div.background{
+            margin:14px 0;
+            display: inline-block;
+            width: 100%;
+            height: 2px;
+            background-color: #444444;
+            border-radius: 5px;
+        }
+        div.progress div.onbackground{
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top:0;
+            width: 0;
+            height: 2px;
+            background-color: #007aff;
+            border-radius: 5px;
+            margin: 14px 0;
+        }
+        div.progress  div.button{
+            width: 14px;
+            height:14px;
+            border-radius: 100%;
+            background-color: #007aff;
+            position: absolute;
+            margin:8px 0;
+            left: -5px;
+            top:0;
+            cursor: pointer;
+
+        }
+        div.audio{
+            display: inline-block;
+            margin:4px 6px;
+            vertical-align: top;
+            background-image: url("audio.png");
+            height: 24px;
+            width: 24px;
+
+        }
+        div.audiooff{
+            display: inline-block;
+            margin:4px 6px;
+            vertical-align: top;
+            background-image: url("audiooff.png");
+            height: 24px;
+            width: 24px;
+
+        }
+        div.audioprogress{
+            vertical-align: top;
+            margin: 0 2px;
+            display: inline-block;
+            width: 72px;
+            height: 20px;
+            background-color: #eee;
+            position: relative;
+        }
+        div.audioprogress div.background{
+            margin:14px 0;
+            display: inline-block;
+            width: 100%;
+            height: 2px;
+            background-color: #444444;
+            border-radius: 5px;
+        }
+        div.audioprogress div.onbackground{
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top:0;
+            width: 0;
+            height: 2px;
+            background-color: #007aff;
+            border-radius: 5px;
+            margin: 14px 0;
+        }
+        div.audioprogress div.button{
+            width: 14px;
+            height:14px;
+            border-radius: 100%;
+            background-color: #007aff;
+            position: absolute;
+            margin:8px 0;
+            left: -5px;
+            top:0;
+            cursor: pointer;
+        }
+        #ifsound{
+            cursor: pointer;
+        }
+
+        div.fullscreen{
+            margin:8px 12px;
+            vertical-align: top;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border:2px solid #444444;
+            cursor: pointer;
+        }
+        div.fullscreen:hover{
+          box-shadow: 0 0 5px 1px #8c8c8c;
+
+        }
+    </style>
+</head>
+<body>
+<div class="demo1">
+
+    <div class="video" id="videocontent" style="display: inline-block;margin: 20px 0">
+        <video src="video.mp4"  id="video"></video>
+        <p>自定义播放器（模仿chrome播放控件）</p>
+        <div class="control" id="control" style="margin: 20px 0;">
+            <!--播放按钮-->
+            <div class="play" id="play"></div>
+            <!--时间显示-->
+            <div class="timeshow">
+                <div style="height: 16px;line-height: 16px">
+                <span id="nowminutes">0</span>
+                <span >:</span>
+                <span id="nowseconds">00</span>
+                <span>/</span>
+                <span id="allminutes">0</span>
+                <span >:</span>
+                <span id="allseconds">00</span>
+                </div>
+            </div>
+            <!--进度条-->
+            <div class="progress" id="playprogress">
+                <div class="background" ></div>
+                <div class="button" id="playbtn"></div>
+                <div class="onbackground" id="playonbackground"></div>
+            </div>
+            <!--音量图标-->
+            <div class="audio" id="ifsound">
+
+            </div>
+            <!--音量进度条-->
+            <div class="audioprogress" id="audioprogress">
+                <div class="background"> </div>
+
+                    <div class="button" id="audiobtn"></div>
+                    <div class="onbackground" id="audiobackground"></div>
+
+            </div>
+            <!--全屏-->
+            <div class="fullscreen" id="full"></div>
+        </div>
+        <p style="color: #8492A6">存在拖动进度条后点击暂停就无法再点击播放的bug（点击空白处才能继续播放）</p>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    var video=document.getElementById("video");
+    var control=document.getElementById("control");
+    var playprogress=document.getElementById("playprogress");
+    var playonbackground=document.getElementById("playonbackground");
+    var audiobackground=document.getElementById("audiobackground");
+    var audioprogress=document.getElementById("audioprogress");
+    var play=document.getElementById("play");
+    var nowminutes=document.getElementById("nowminutes");
+    var nowseconds=document.getElementById("nowseconds");
+    var allminutes=document.getElementById("allminutes");
+    var allseconds=document.getElementById("allseconds");
+    var full=document.getElementById("full");
+    var playbtn=document.getElementById("playbtn");
+    var audiobtn=document.getElementById("audiobtn");
+    var ifsound=document.getElementById("ifsound");
+    var times='';
+    var minutes='';
+    var seconds='';
+    var scales='';
+    var audioscales='';
+    var nowsec='';
+//获取时间
+    setInterval(function (){
+        times=parseInt(video.duration);
+        minutes=parseInt(video.duration/60);
+       seconds=parseInt(video.duration%60);
+
+        nowsec=parseInt(video.currentTime%60);
+
+        if(nowsec<10){
+            nowsec="0"+parseInt(video.currentTime%60);
+
+        }
+
+        nowseconds.innerHTML=nowsec;
+        nowminutes.innerHTML=parseInt(video.currentTime/60);
+        allminutes.innerHTML=minutes;
+        allseconds.innerHTML=seconds;
+        var scals=video.currentTime/video.duration*100+"%";
+        playbtn.style.cssText ="margin-left:"+scals;
+        playonbackground.style.width=scals;
+    },500);
+//音量初始化
+    var nowvolume=video.volume;
+    audiobtn.style.cssText ="margin-left:"+nowvolume*100+"%";
+    audiobackground.style.width=nowvolume*100+"%";
+//播放进度条
+    /*console.log(videocontent.offsetLeft);
+    console.log(playprogress.offsetLeft);*/
+    playbtn.onmousedown=function  () {
+        video.pause();
+
+        document.onmousemove=function  (e) {
+            var leftv=e.clientX-playprogress.offsetLeft;
+            if(leftv<=0){
+                leftv=0;
+            }
+            if(leftv>=playprogress.offsetWidth){
+                leftv=playprogress.offsetWidth;
+            }
+
+            var leftvv=leftv/playprogress.offsetWidth*100+"%";
+            scales=leftv/playprogress.offsetWidth;
+            playbtn.style.cssText ="margin-left:"+leftvv;
+            playonbackground.style.width=leftvv;
+        };
+        document.onmouseup=function  () {
+
+            video.currentTime =video.duration*scales;
+            video.play();
+            play.className = "pause";
+            document.onmousemove=null;
+            document.onmousedown=null;
+        }
+
+    };
+//    音量进度条
+    audiobtn.onmousedown=function  () {
+
+        video.muted=false;
+        document.onmousemove=function  (e) {
+            var leftv=e.clientX-audioprogress.offsetLeft;
+            if(leftv<=0){
+                leftv=0;
+            }
+            if(leftv>=audioprogress.offsetWidth){
+                leftv=audioprogress.offsetWidth;
+            }
+
+
+            var leftvv=leftv/audioprogress.offsetWidth*100+"%";
+            scales=leftv/audioprogress.offsetWidth;
+            audiobtn.style.cssText ="margin-left:"+leftvv;
+            audiobackground.style.width=leftvv;
+            audioscales=leftv/audioprogress.offsetWidth;
+        };
+        document.onmouseup=function  () {
+
+            video.volume = audioscales;
+            document.onmousemove=null;
+            document.onmousedown=null;
+        }
+
+    };
+//播放暂停
+    play.onclick=function  () {
+        if (video.paused) {
+            
+            video.play();
+	    play.className = "pause";
+        } 
+	else{
+            
+            video.pause();
+	    play.className = "play";	
+        }
+    };
+//全屏
+   full.onclick=function(){
+        video.webkitRequestFullScreen()
+   };
+//静音
+    ifsound.onclick=function  () {
+        if(video.muted){
+            video.muted=false;
+            var nowvolume=video.volume;
+            audiobtn.style.cssText ="margin-left:"+nowvolume*100+"%";
+            audiobackground.style.width=nowvolume*100+"%";
+            ifsound.className="audio"
+        }else{
+            video.muted=true;
+           audiobackground.style.width=0;
+            audiobtn.style.cssText ="margin-left:"+0;
+            ifsound.className="audiooff"
+        }
+    };
+    
+</script>
+</body>
+</html>
